@@ -12,8 +12,7 @@ func Shred(path string) {
 		fmt.Printf("problem reading the file: %v", err)
 		return
 	}
-	defer file.Close()
-
+	
 	stat, err := file.Stat()
 	if err != nil {
 		fmt.Printf("problem getting file stats: %v", err)
@@ -34,5 +33,11 @@ func Shred(path string) {
 			c := charSet[index]
 			file.WriteString(string(c))
 		}
+	}
+	file.Close()
+	err = os.Remove(path)
+	if err != nil {
+		fmt.Printf("problem deleting file: %v", err)
+		return
 	}
 }
